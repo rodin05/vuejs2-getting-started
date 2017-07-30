@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <h1>Let's go somewhere!</h1>
+    <router-link to="/users">to users page</router-link>
     <hr>
     <router-view></router-view>
   </div>
@@ -8,11 +9,7 @@
 
 <script>
 export default {
-  data () {
-    return {
 
-    }
-  }
 }
 </script>
 
