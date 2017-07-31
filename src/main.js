@@ -2,15 +2,21 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource'
 import App from './App.vue';
-import Users from './Users.vue';
+import InfiniteLoad from './infiniteload.vue';
 import Home from './Home.vue';
+import Tables from './tables.vue';
+import {ClientTable, Event} from 'vue-tables-2';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
+Vue.use(ClientTable, {
+    perPage: 25
+})
 
 const routes = [
-    {path: '/users', component: Users},
-    {path: '/', component: Home}
+    {path: '/infiniteLoad', component: InfiniteLoad},
+    {path: '/', component: Home},
+    {path: '/tables', component: Tables}
 ];
 
 const router = new VueRouter({

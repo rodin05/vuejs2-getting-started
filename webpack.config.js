@@ -28,7 +28,17 @@ module.exports = {
         options: {
           name: '[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /\.html$/,
+        use: [ {
+          loader: 'html-loader',
+          options: {
+            minimize: true
+          }
+        }]
       }
+
     ]
   },
   resolve: {
