@@ -1,68 +1,89 @@
 <template>
     <div id="vue-tables-options" class="container">
         <h2>VueTables 2 Options API</h2>
-        <v-client-table :data="data" :columns="columns" :options="options"></v-client-table>
+        <button @click="applyFilter(letter)" class="btn btn-default" v-for="letter in letters" :class="{active: letter==selectedLetter}">
+            {{letter}}
+        </button>
+        <button  class="btn btn-default" @click="applyFilter('')">
+            clear
+        </button>
+        <v-client-table :data="data" :columns="columns" :options="options">
+
+        </v-client-table>
     </div>
 </template>
 <script>
+    import Vue from 'vue';
+    import {ClientTable, Event} from 'vue-tables-2';
+    Vue.use(ClientTable);
+    Vue.component('edit', {
+        props:['data'],
+        template:`<a class='delete' @click='erase'><i class='glyphicon glyphicon-edit'></i></a>`,
+        methods:{
+            erase() {
+                let id = this.data.id; // delete the item
+            }
+        }
+    });
+    //import edit from './edit.vue'
 export default {
-    data: function(){
+    data: function() {
         return {
-            columns: ['option', 'type', 'description', 'default'],
+            columns: ['option', 'type', 'description', 'default', 'edit','delete'],
             data: [
                 {
-                    option:'columnsClasses',
-                    type:'Object',
-                    description:'Add class(es) to the specified columns. Takes key-value pairs, where the key is the column name and the value is a string of space-separated classes',
-                    default:'<code>{}</code>'
+                    option: 'columnsClasses',
+                    type: 'Object',
+                    description: 'Add class(es) to the specified columns. Takes key-value pairs, where the key is the column name and the value is a string of space-separated classes',
+                    default: '<code>{}</code>'
                 },
                 {
-                    option:'multiSorting (client-side)',
-                    type:'Object',
-                    description:'See docomentation',
-                    default:'<code>{}</code>'
+                    option: 'multiSorting (client-side)',
+                    type: 'Object',
+                    description: 'See docomentation',
+                    default: '<code>{}</code>'
                 },
                 {
-                    option:'serverMultiSorting',
-                    type:'Boolean',
-                    description:'Enable multiple columns sorting using Shift + Click on the server component',
-                    default:'<code>false</code>'
+                    option: 'serverMultiSorting',
+                    type: 'Boolean',
+                    description: 'Enable multiple columns sorting using Shift + Click on the server component',
+                    default: '<code>false</code>'
                 },
                 {
-                    option:'clientMultiSorting',
-                    type:'Boolean',
-                    description:'Enable multiple columns sorting using Shift + Click on the client component',
-                    default:'<code>true</code>'
+                    option: 'clientMultiSorting',
+                    type: 'Boolean',
+                    description: 'Enable multiple columns sorting using Shift + Click on the client component',
+                    default: '<code>true</code>'
                 },
                 {
-                    option:'requestAdapter (server-side)',
-                    type:'Function',
-                    description:'Set a custom request format',
-                    default:'<code>function(data) { return data; }</code>'
+                    option: 'requestAdapter (server-side)',
+                    type: 'Function',
+                    description: 'Set a custom request format',
+                    default: '<code>function(data) { return data; }</code>'
                 },
                 {
-                    option:'saveState',
-                    type:'Boolean',
-                    description:'Constantly save table state and reload it each time the component mounts. When setting it to true, use the `name` prop to set an identifier for the table',
-                    default:'<code>false</code>'
+                    option: 'saveState',
+                    type: 'Boolean',
+                    description: 'Constantly save table state and reload it each time the component mounts. When setting it to true, use the `name` prop to set an identifier for the table',
+                    default: '<code>false</code>'
                 },
                 {
-                    option:'storage',
-                    type:'String',
-                    description:'Which persistance mechanism should be used when saveState is set to true: `local` - localStorage. `session` - sessionStorage',
-                    default:'<code>local</code>'
+                    option: 'storage',
+                    type: 'String',
+                    description: 'Which persistance mechanism should be used when saveState is set to true: `local` - localStorage. `session` - sessionStorage',
+                    default: '<code>local</code>'
                 },
                 {
-                    option:'customSorting',
-                    type:'Object',
-                    description:'See documentation',
-                    default:'<code>{}</code>'
+                    option: 'customSorting',
+                    type: 'Object',
+                    description: 'See documentation',
+                    default: '<code>{}</code>'
                 },
                 {
-                    option:'highlightMatches',
-                    type:'Boolean',
-                    description:'Highlight matches',
-                    default:'<code>false</code>'
+                    option: 'highlightMatches',
+                    type: 'Boolean',
+                    description: 'Highlight matches',
+                    default: '<code>false</code>'
                 },
                 {
                     option: 'childRow',
@@ -215,11 +236,38 @@ export default {
                     description: 'Responsive display for the specified columns. Columns will only be shown when the window width is within the defined limits. Accepts key-value pairs of column name and device. Possible values are <code>mobile</code> (x < 480),<code>mobileP</code> (x < 320), <code>mobileL</code> (320 <= x < 480),<code>tablet</code>(480 <= x < 1024),<code>tabletP</code> (480 <= x < 768), <code>tabletL</code> (768 <= x < 1024),<code>desktop</code> (x >= 1024). all options can be preceded by the logical operators <code>min</code>,<code>max</code>, and <code>not</code> followed by an underscore. For example, a column which is set to <code>not_mobile</code> will be shown when the width of the window is greater than or equal to 480px, while a column set to <code>max_tabletP</code> will only be shown when the width is under 768px',
                     default: "<code>{}</code>"
                 }],
+            selectedLetter:'',
+            letters: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
             options: {
-                sortable: ['option']
+                sortable: ['option'],
+                templates: {
+                    erase: 'edit',
+                    delete: function(row) {
+                        return `<a href='javascript:void(0);' @click='$parent.deleteMe(${row.id})'><i class='glyphicon glyphicon-erase'></i></a>`
+
+                    }
+                },
+                childRow: function(h, row) {
+                    return <div>My custom content for row {row.id}</div>
+                },
+                customFilters: [{
+                    name: 'alphabet',
+                    callback: function(row, query) {
+                        return row.name[0] == query;
+                    }
+                }]
             }
         }
     },
+    methods:{
+        deleteMe: function(id) {
+            alert("Delete " + id);
+        },
+        applyFilter(letter) {
+            this.selectedLetter = letter;
+            Event.$emit('vue-tables.filter::alphabet', letter);
+        }
+    }
 }
 
 </script>
@@ -243,6 +291,22 @@ export default {
 
     .VueTables__sortable {
         cursor: pointer;
+    }
+    .VueTables__child-row-toggler {
+        width:16px;
+        height:16px;
+        line-height: 16px;
+        display: block;
+        margin: auto;
+        text-align: center;
+    }
+
+    .VueTables__child-row-toggler--closed::before {
+        content: "+";
+    }
+
+    .VueTables__child-row-toggler--open::before  {
+        content: "-";
     }
 
 </style>
