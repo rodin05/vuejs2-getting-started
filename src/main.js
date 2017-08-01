@@ -1,6 +1,6 @@
 import Vue from 'vue';
-// import MintUI from 'mint-ui'
-// import 'mint-ui/lib/style.css'
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 import { Toast,Button } from 'mint-ui'
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource'
@@ -11,9 +11,9 @@ import Tables from './tables.vue';
 import Mintuiexa from './mintuiexa.vue';
 import {ClientTable, Event} from 'vue-tables-2';
 
-// Vue.use(MintUI);
-Vue.component(Toast.name, Toast)
-Vue.component(Button.name, Button)
+Vue.use(MintUI);
+// Vue.component(Toast.name, Toast)
+// Vue.component(Button.name, Button)
 // Vue.use(Toast);
 // Vue.use(Button);
 Vue.use(VueRouter);
