@@ -22,12 +22,13 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
+      // {
+      //   test: /\.(png|jpg|gif|svg|jpeg)$/,
+      //   loader: 'file-loader',
+      // },
       {
         test: /\.(png|jpg|gif|svg|jpeg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]?[hash]'
-        }
+        loader: 'url-loader',
       },
       {
         test: /\.css$/,

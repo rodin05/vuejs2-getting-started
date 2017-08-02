@@ -21,9 +21,8 @@
         },
         created:function () {
             var _this=this;
-            setTimeout(function () {
-                _this.list=[img1,img1,img3,img4,img5,img6,img1,img1,img3,img4,img5,img6]
-            },1500)
+            _this.list=[img1,img1,img3,img4,img5,img6,img1,img1,img3,img4,img5,img6]
+
 
         }
     }
@@ -35,6 +34,7 @@
     }
     .homelist li{
         list-style: none;
+        background-color: #DDDDDD;
     }
     .homelist,.homelist li{
         width: 100%;
