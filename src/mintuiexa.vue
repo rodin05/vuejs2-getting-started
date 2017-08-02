@@ -1,6 +1,6 @@
 <template>
-    <div class="page-loadmore-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }"  style="height: 100%">
-        <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" @bottom-status-change="handleTopChange" :bottom-distance="tobottom" :auto-fill="false" ref="loadmore">
+    <div class="page-loadmore-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px','-webkit-overflow-scrolling': scrollMode }"  >
+        <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" @bottom-status-change="handleBottomChange"  :auto-fill="false" ref="loadmore">
             <div class="hacker-news-item" v-for="(item, key) in list">
                 <span class="num" v-text="key + 1"></span>
                 <p>
@@ -25,9 +25,10 @@
             <div slot="bottom" class="mint-loadmore-bottom">
                 <span v-show="bottomStatus !== 'loading'" :class="{ 'is-rotate': bottomStatus === 'drop' }">↑</span>
                 <span v-show="bottomStatus === 'loading'">
-            <mt-spinner type="snake"></mt-spinner>
-          </span>
+                         <mt-spinner type="snake"></mt-spinner>
+                </span>
             </div>
+            <p v-show="allLoaded === true" style="text-align: center;font-size: 12px">没有了…</p>
         </mt-loadmore>
     </div>
 </template>
@@ -42,7 +43,6 @@
                     pageSize:10
                 },
                 list: [],
-                tobottom:70,
                 topStatus: '',
                 bottomStatus:'',
                 allLoaded: false,
@@ -67,7 +67,7 @@
             loadBottom:function() {
                 // 上拉加载
                 this.more();// 上拉触发的分页查询
-                this.$refs.loadmore.onBottomLoaded();// 固定方法，查询完要调用一次，用于重新定位
+                // 固定方法，查询完要调用一次，用于重新定位
             },
             loadPageList:function (){
                 // 查询数据
@@ -92,17 +92,18 @@
                 // 分页查询
                 this.searchCondition.pageNo = this.searchCondition.pageNo + 1;
                 this.$http.get(api, {
-                    params: {
-                        page: this.searchCondition.pageNo,
-                    },
-                }).then(res=>{
+                        params: {
+                            page: this.searchCondition.pageNo,
+                        },
+                    }).then(res=>{
                     this.list = this.list.concat(res.data.hits);
-                    if (this.list.length / 20 === 10) {
-                        this.isHaveMore(false);
-                    }else {
-                        this.isHaveMore(true);
-                }
-                });
+                        if (this.list.length / 20 === 3) {
+                            this.isHaveMore(false);
+                        }else {
+                            this.isHaveMore(true);
+                        }
+                    this.$refs.loadmore.onBottomLoaded();
+                    });
             },
             isHaveMore:function(isHaveMore){
                 // 是否还有下一页，如果没有就禁止上拉刷新
@@ -111,10 +112,10 @@
                     this.allLoaded = false;
                 }
             },
-            handleTopChange(status) {
+            handleBottomChange:function(status) {
                 console.log('999999999999999')
                 console.log(status)
-                this.topStatus = status;
+                this.bottomStatus = status;
             }
         }
     }
@@ -122,5 +123,20 @@
 <style>
     .page-loadmore-wrapper {
         overflow: scroll
+    }
+    .mint-loadmore-bottom span {
+        display: inline-block;
+        -webkit-transition: .2s linear;
+        transition: .2s linear;
+        vertical-align: middle
+    }
+
+    .mint-loadmore-bottom span.is-rotate {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg)
+    }
+    .mint-spinner {
+        display: inline-block;
+        vertical-align: middle
     }
 </style>
