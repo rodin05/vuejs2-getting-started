@@ -7,7 +7,7 @@
     <hr>
     <router-link to="/mintuiexa">to mintuiexa</router-link>
     <hr>
-    <router-link to="/boot">to boot</router-link>
+    <router-link to="/datatabless">to datatabless</router-link>
     <hr>
     <router-view></router-view>
   </div>
