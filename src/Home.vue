@@ -12,6 +12,7 @@
     import img4 from './images/04.jpeg';
     import img5 from './images/05.jpeg';
     import img6 from './images/06.jpeg';
+    import { Toast } from 'mint-ui';
 
     export default{
         data:function () {
@@ -21,9 +22,13 @@
         },
         created:function () {
             var _this=this;
-            _this.list=[img1,img1,img3,img4,img5,img6,img1,img1,img3,img4,img5,img6]
-
-
+            _this.list=[img1,img1,img3,img4,img5,img6,img1,img1,img3,img4,img5,img6];
+            Toast({
+                message: 'Upload Complete',
+                position: 'middle',
+                duration: 5000,
+                iconClass: 'mint-toast-icon mintui mintui-success'
+            });
         }
     }
 </script>

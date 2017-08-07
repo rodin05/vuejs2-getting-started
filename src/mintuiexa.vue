@@ -33,7 +33,7 @@
     </div>
 </template>
 <script>
-    //import {Loadmore} from 'mint-ui';
+    import { Indicator } from 'mint-ui';
     const api = 'http://hn.algolia.com/api/v1/search_by_date?tags=story';
     export default {
         data:function() {
@@ -54,6 +54,12 @@
 //            'v-loadmore':Loadmore  // 为组件起别名，vue转换template标签时不会区分大小写，例如：loadMore这种标签转换完就会变成loadmore，容易出现一些匹配问题
 //            // 推荐应用组件时用a-b形式起名
 //        },
+        created:function () {
+            Indicator.open({
+                text: 'Loading...',
+                spinnerType: 'triple-bounce'
+            });
+        },
         mounted(){
             this.loadPageList();  //初次访问查询列表
             this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top;
@@ -77,7 +83,7 @@
                     },
                 }).then(res =>{
                     // 是否还有下一页，加个方法判断，没有下一页要禁止上拉
-
+                    Indicator.close();
                     this.isHaveMore(true);
                     this.list = res.data.hits;
                     this.$nextTick(function () {
