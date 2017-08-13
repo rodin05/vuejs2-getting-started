@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.2/css/select.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="Editor-1.6.3/css/editor.dataTables.css">
+
+</head>
+<body>
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th rowspan="2">Name</th>
+        <th colspan="2">HR Information</th>
+        <th colspan="3">Contact</th>
+    </tr>
+    <tr>
+        <!--<th>Name</th>-->
+        <th>Position</th>
+        <th class="select-filter">salary</th>
+        <th>start_date</th>
+        <th>office</th>
+        <th>extn</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th colspan="5" style="text-align:right">Total:</th>
+        <th></th>
+    </tr>
+    </tfoot>
+</table>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.2.2/js/dataTables.select.min.js"></script>
+<script type="text/javascript" src="Editor-1.6.3/js/dataTables.editor.js"></script>
+<script>
+    var editor = new $.fn.dataTable.Editor( {} );
+    $('#example').DataTable( {
+        "ajax": {
+            url:'./src/datafortable.txt',
+            dataSrc:'result'
+        },
+        dom: 'Bfrtip',
+        "columns": [
+            { "data": "name" },
+            { "data": "hr.position" },
+            { "data": "hr.salary" },
+            { "data": "hr.start_date" },
+            { "data": "contact.0" },
+            { "data": "contact.1" },
+        ],
+        select: true,
+        buttons: [
+            { extend: 'create', editor: editor },
+            { extend: 'edit',   editor: editor },
+            { extend: 'remove', editor: editor }
+        ]
+    } );
+</script>
+</body>
+</html>
