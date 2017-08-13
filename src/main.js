@@ -7,9 +7,7 @@ import VueResource from 'vue-resource'
 import App from './App.vue';
 import InfiniteLoad from './infiniteload.vue';
 import Home from './Home.vue';
-import Tables from './tables.vue';
 import Mintuiexa from './mintuiexa.vue';
-import Datatabless from './datatabless.vue';
 import {ClientTable, Event} from 'vue-tables-2';
 
 Vue.use(MintUI);
@@ -25,9 +23,7 @@ Vue.use(Event);
 const routes = [
     {path: '/infiniteLoad', component: InfiniteLoad},
     {path: '/', component: Home},
-    {path: '/tables', component: Tables},
-    {path: '/mintuiexa', component: Mintuiexa},
-    {path: '/datatabless', component: Datatabless}
+    {path: '/mintuiexa', component: Mintuiexa}
 ];
 
 const router = new VueRouter({
